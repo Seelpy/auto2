@@ -117,7 +117,7 @@ def MULO(input: str) -> (str, bool):
     if input.startswith("div"):
         return input.removeprefix("div").strip(), True
 
-    if input.startswith("mode"):
+    if input.startswith("mod"):
         return input.removeprefix("mod").strip(), True
 
     if input.startswith("and"):
