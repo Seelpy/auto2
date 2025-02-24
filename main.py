@@ -145,7 +145,7 @@ def exp3(input: str) -> (str, bool):
         inputExp, isRuleExp = exp(input)
         if isRuleExp:
             if inputExp.startswith(")"):
-               return inputExp.removeprefix(")").strip(), True
+                return inputExp.removeprefix(")").strip(), True
 
     if input.startswith("num"):
         return input.removeprefix("num").strip(), True
@@ -227,6 +227,7 @@ def F(input: str) -> (str, bool):
             return F(inputF)
 
     return input, True
+
 
 if __name__ == "__main__":
     user_input = input("Введите строку: ")
