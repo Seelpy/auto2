@@ -1,6 +1,6 @@
 
 def exp(input: str) -> (str, bool):
-    input.strip()
+    input = input = input.strip()
 
     inputExp1, isRuleExp1 = exp1(input)
     if isRuleExp1:
@@ -10,7 +10,7 @@ def exp(input: str) -> (str, bool):
 
 
 def A(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     inputR, isRuleR = R(input)
     if isRuleR:
@@ -20,7 +20,7 @@ def A(input: str) -> (str, bool):
 
 
 def R(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     if input.startswith("=="):
         return input.removeprefix("==").strip(), True
@@ -29,12 +29,12 @@ def R(input: str) -> (str, bool):
         return input.removeprefix("!=").strip(), True
 
     if input.startswith("<"):
-        input.removeprefix("<").strip()
+        input = input.removeprefix("<").strip()
 
         return B(input)
 
     if input.startswith(">"):
-        input.removeprefix(">").strip()
+        input = input.removeprefix(">").strip()
 
         return B(input)
 
@@ -42,7 +42,7 @@ def R(input: str) -> (str, bool):
 
 
 def B(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     if input.startswith("="):
         return input.removeprefix("=").strip(), True
@@ -51,7 +51,7 @@ def B(input: str) -> (str, bool):
 
 
 def exp1(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     inputExp2, isRuleExp2 = exp2(input)
     if isRuleExp2:
@@ -61,7 +61,7 @@ def exp1(input: str) -> (str, bool):
 
 
 def C(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     inputPLUSO, isRulePLUSO = PLUSO(input)
     if isRulePLUSO:
@@ -71,7 +71,7 @@ def C(input: str) -> (str, bool):
 
 
 def PLUSO(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     if input.startswith("+"):
         return input.removeprefix("+").strip(), True
@@ -86,7 +86,7 @@ def PLUSO(input: str) -> (str, bool):
 
 
 def exp2(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     inputExp3, isRuleExp3 = exp3(input)
     if isRuleExp3:
@@ -96,7 +96,7 @@ def exp2(input: str) -> (str, bool):
 
 
 def D(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     inputMULO, isRuleMULO = MULO(input)
     if isRuleMULO:
@@ -106,7 +106,7 @@ def D(input: str) -> (str, bool):
 
 
 def MULO(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     if input.startswith("+"):
         return input.removeprefix("+").strip(), True
@@ -127,20 +127,20 @@ def MULO(input: str) -> (str, bool):
 
 
 def exp3(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     if input.startswith("-"):
-        input.removeprefix("-").strip()
+        input = input.removeprefix("-").strip()
 
         return exp3(input)
 
     if input.startswith("+"):
-        input.removeprefix("+").strip()
+        input = input.removeprefix("+").strip()
 
         return exp3(input)
 
     if input.startswith("("):
-        input.removeprefix("(").strip()
+        input = input.removeprefix("(").strip()
 
         inputExp, isRuleExp = exp(input)
         if isRuleExp:
@@ -157,7 +157,7 @@ def exp3(input: str) -> (str, bool):
         return input.removeprefix("false").strip(), True
 
     if input.startswith("not"):
-        input.removeprefix("not").strip()
+        input = input.removeprefix("not").strip()
 
         return exp(input)
 
@@ -165,10 +165,10 @@ def exp3(input: str) -> (str, bool):
 
 
 def ident(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     if input.startswith("id"):
-        input.removeprefix("id").strip()
+        input = input.removeprefix("id").strip()
         
         return E(input)
 
@@ -176,15 +176,15 @@ def ident(input: str) -> (str, bool):
 
 
 def E(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     if input.startswith(".id"):
-        input.removeprefix(".id").strip()
+        input = input.removeprefix(".id").strip()
 
         return E(input)
 
     if input.startswith("["):
-        input.removeprefix("[").strip()
+        input = input.removeprefix("[").strip()
 
         inputListExp, isRuleListExp = listexp(input)
         if isRuleListExp:
@@ -194,7 +194,7 @@ def E(input: str) -> (str, bool):
                 return E(inputListExp)
 
     if input.startswith("("):
-        input.removeprefix("(").strip()
+        input = input.removeprefix("(").strip()
 
         inputListexp, isRuleListexp = listexp(input)
         if isRuleListexp:
@@ -207,7 +207,7 @@ def E(input: str) -> (str, bool):
 
 
 def listexp(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     inputExp, isRuleExp = exp(input)
     if isRuleExp:
@@ -217,7 +217,7 @@ def listexp(input: str) -> (str, bool):
 
 
 def F(input: str) -> (str, bool):
-    input.strip()
+    input = input.strip()
 
     if input.startswith(", "):
         input.removeprefix(", ").strip()
