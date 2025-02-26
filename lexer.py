@@ -94,10 +94,9 @@ class Token:
 
 
 class Lexer:
-    def __init__(self, tokens: List[str], valueGetter: Callable[[], str]):
-        self.valueGetter = valueGetter
+    def __init__(self, tokens: List[str], v):
         self.tokens = tokens
-        self.buffer = self.valueGetter()
+        self.buffer = v
         self.lineNumber = 1
         self.position = -1
         self.currentChar = None
@@ -106,15 +105,21 @@ class Lexer:
         self.startLine = 0
 
     def nextLine(self):
-        self.buffer = self.valueGetter()
-        if self.buffer:
-            self.buffer = self.buffer.replace("\xa0", " ")
-            self.lineNumber += 1
-            self.position = -1
-            return True
-        else:
-            self.buffer = ""
-            return False
+        return False
+
+    def copy(self):
+        # Create a new instance of Lexer
+        lexer_copy = Lexer(self.tokens, self.buffer)
+
+        # Copy all relevant attributes from the original lexer
+        lexer_copy.lineNumber = self.lineNumber
+        lexer_copy.position = self.position
+        lexer_copy.currentChar = self.currentChar
+        lexer_copy.currentValue = self.currentValue
+        lexer_copy.startPosition = self.startPosition
+        lexer_copy.startLine = self.startLine
+
+        return lexer_copy
 
     def tryGetNextChar(self):
         self.position += 1
@@ -299,7 +304,7 @@ class Lexer:
             if not self.tryGetNextChar():
                 while True:
                     if not self.nextLine():
-                        return None
+                        return self.createToken("")
                     if len(self.buffer) > 0:
                         break
                 self.tryGetNextChar()
