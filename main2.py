@@ -12,7 +12,9 @@ def exp(input: Lexer) -> (Lexer, bool):
 def A(input: Lexer) -> (Lexer, bool):
     inputR, isRuleR = R(input.copy())
     if isRuleR:
-        return A(inputR.copy())
+        inputA, isRuleA = A(inputR.copy())
+        if isRuleA:
+            return exp(inputA.copy())
 
     return input, True
 
@@ -55,7 +57,7 @@ def exp1(input: Lexer) -> (Lexer, bool):
 def C(input: Lexer) -> (Lexer, bool):
     inputPLUSO, isRulePLUSO = PLUSO(input.copy())
     if isRulePLUSO:
-        return C(inputPLUSO.copy())
+        return exp1(inputPLUSO.copy())
 
     return input, True
 
@@ -86,7 +88,7 @@ def exp2(input: Lexer) -> (Lexer, bool):
 def D(input: Lexer) -> (Lexer, bool):
     inputMULO, isRuleMULO = MULO(input.copy())
     if isRuleMULO:
-        return C(inputMULO)
+        return exp1(inputMULO.copy())
 
     return input, True
 
@@ -99,6 +101,9 @@ def MULO(input: Lexer) -> (Lexer, bool):
         return input, True
 
     if nextToken.value == "/":
+        return input, True
+
+    if nextToken.value == "*":
         return input, True
 
     if nextToken.value == "div":
@@ -129,7 +134,7 @@ def exp3(input: Lexer) -> (Lexer, bool):
             if exprToken.value == ")":
                 return inputExp, True
 
-    if nextToken.value == "num":
+    if nextToken.name == "INTEGER":
         return input, True
 
     if nextToken.value == "true":
