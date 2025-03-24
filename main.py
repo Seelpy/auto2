@@ -203,7 +203,7 @@ def E(input: str) -> (str, bool):
 
                 return E(inputListexp)
 
-    return "", True
+    return input, True
 
 
 def listexp(input: str) -> (str, bool):

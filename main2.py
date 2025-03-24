@@ -18,6 +18,7 @@ def A(input: Lexer) -> (Lexer, bool):
 
 
 def R(input: Lexer) -> (Lexer, bool):
+    tmpInput = input.copy()
     nextToken = input.nextToken()
     if nextToken.value == "==":
         return input, True
@@ -31,19 +32,19 @@ def R(input: Lexer) -> (Lexer, bool):
     if nextToken.value == ">":
         return B(input.copy())
 
-    return input, False
+    return tmpInput, False
 
 
 def B(input: Lexer) -> (Lexer, bool):
+    tmpInput = input.copy()
     nextToken = input.nextToken()
     if nextToken.value == "=":
         return input, True
 
-    return input, True
+    return tmpInput, True
 
 
 def exp1(input: Lexer) -> (Lexer, bool):
-
     inputExp2, isRuleExp2 = exp2(input.copy())
     if isRuleExp2:
         return C(inputExp2.copy())
@@ -60,6 +61,7 @@ def C(input: Lexer) -> (Lexer, bool):
 
 
 def PLUSO(input: Lexer) -> (Lexer, bool):
+    tmpInput = input.copy()
     nextToken = input.nextToken()
     if nextToken.value == "+":
         return input, True
@@ -70,11 +72,10 @@ def PLUSO(input: Lexer) -> (Lexer, bool):
     if nextToken.value == "or":
         return input, True
 
-    return input, False
+    return tmpInput, False
 
 
 def exp2(input: Lexer) -> (Lexer, bool):
-
     inputExp3, isRuleExp3 = exp3(input.copy())
     if isRuleExp3:
         return D(inputExp3.copy())
@@ -83,7 +84,6 @@ def exp2(input: Lexer) -> (Lexer, bool):
 
 
 def D(input: Lexer) -> (Lexer, bool):
-
     inputMULO, isRuleMULO = MULO(input.copy())
     if isRuleMULO:
         return C(inputMULO)
@@ -92,6 +92,7 @@ def D(input: Lexer) -> (Lexer, bool):
 
 
 def MULO(input: Lexer) -> (Lexer, bool):
+    tmpInput = input.copy()
     nextToken = input.nextToken()
 
     if nextToken.value == "+":
@@ -109,7 +110,7 @@ def MULO(input: Lexer) -> (Lexer, bool):
     if nextToken.value == "and":
         return input, True
 
-    return input, False
+    return tmpInput, False
 
 
 def exp3(input: Lexer) -> (Lexer, bool):
@@ -122,11 +123,10 @@ def exp3(input: Lexer) -> (Lexer, bool):
         return exp3(input.copy())
 
     if nextToken.value == "(":
-
         inputExp, isRuleExp = exp(input.copy())
-        exprTOkne = inputExp.nextToken()
         if isRuleExp:
-            if exprTOkne.value == ")":
+            exprToken = inputExp.nextToken()
+            if exprToken.value == ")":
                 return inputExp, True
 
     if nextToken.value == "num":
@@ -145,21 +145,24 @@ def exp3(input: Lexer) -> (Lexer, bool):
 
 
 def ident(input: Lexer) -> (Lexer, bool):
+    tmpInput = input.copy()
     nextToken = input.nextToken()
     if nextToken.name == "IDENTIFIER":
         return E(input.copy())
 
-    return input, False
+    return tmpInput, False
 
 
 def E(input: Lexer) -> (Lexer, bool):
+    tmpInput = input.copy()
     nextToken = input.nextToken()
     if nextToken is None:
         return input, True
     if nextToken.value == ".":
-        nextToken2 = input.nextToken()
+        input1 = input.copy()
+        nextToken2 = input1.nextToken()
         if nextToken2.name == "IDENTIFIER":
-            return E(input.copy())
+            return E(input1.copy())
 
     if nextToken.value == "[":
         inputListExp, isRuleListExp = listexp(input.copy())
@@ -173,10 +176,9 @@ def E(input: Lexer) -> (Lexer, bool):
         if isRuleListexp:
             listExpr = inputListexp.nextToken()
             if listExpr.value == ")":
-
                 return E(inputListexp.copy())
 
-    return input, True
+    return tmpInput, True
 
 
 def listexp(input: Lexer) -> (Lexer, bool):
@@ -188,22 +190,21 @@ def listexp(input: Lexer) -> (Lexer, bool):
 
 
 def F(input: Lexer) -> (Lexer, bool):
+    tmpInput = input.copy()
     nextToken = input.nextToken()
     if nextToken.value == ",":
         inputF, isRuleF = F(input.copy())
         if isRuleF:
             return F(inputF.copy())
 
-    return input, True
+    return tmpInput, True
 
 
 if __name__ == "__main__":
-    # Запрашиваем ввод данных от пользователя
-    user_input = input("Введите строку: ")
+    userInput = input("Введите строку: ")
 
-    # Лексер и обработка токенов (замените на ваш лексер, если это необходимо)
-    lexer = Lexer(list(TOKENS.keys()), user_input)  # предполагаем, что getDataGetter может работать с вводом как с данными
-    output = []  # Используем список вместо файла для хранения вывода
-    result_exp = exp(lexer)
-    print(f"Результат экспрессии: {result_exp}")
+    lexer = Lexer(list(TOKENS.keys()), userInput)
+    output = []
+    resultExp, isValid = exp(lexer)
+    print(f"Результат экспрессии: {isValid}")
 
